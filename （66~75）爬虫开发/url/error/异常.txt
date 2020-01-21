@@ -1,0 +1,15 @@
+URLerror\HTTPError
+
+NameError 
+TyepError
+FileNotFound
+
+
+URLerror:
+        1. 没有网
+        2. 服务器连接失败
+        3. 找不到指定的服务器
+HTTPError(是URLError的子类)
+
+[注]：两个同时捕获的时候，需要将HTTPError写在上面，URLError写在下面
+        

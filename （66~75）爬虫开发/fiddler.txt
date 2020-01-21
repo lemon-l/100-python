@@ -1,0 +1,28 @@
+一个网页的呈现，中间不止一次的HTTP请求，平均一个网页差不多10~15个http请求
+谷歌：邮件开发者工具 —— network
+fiddler:
+    1.  配置：tools —— options -—— https
+        选中：capture https
+              decrypt https trafic
+              ignore xxx
+        点击右边actions —— trust —— OK
+        将fiddler关闭重启
+    2. 抓包
+        <>: html内容
+        {json}: json数据，很有可能是接口
+
+        停止抓取： file —— capture 点击切换
+
+        分析： 点击请求，右边选中Inspectors
+               右上（http请求信息）：raw —— 请求头部的详细信息， 
+                    webforms —— 请求所带参数，query_string formdata
+               右下（http响应信息）： 首先点击黄色条进行解码
+                    raw —— 响应的所有信息
+                    headers —— 响应头
+                    json —— 接口返回的内容
+               左下黑色框，输入口令
+                    clear —— 清除所有的请求
+                    select json —— 快速选择所有的json请求
+                    select image —— 图片请求
+                    select html —— html请求
+                    ？内容 —— 搜索包含这个内容的所有请求

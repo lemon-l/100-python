@@ -1,0 +1,7 @@
+Handler 处理器、自定义Opener
+
+urlopen()  给一个url，发送请求，获取响应
+Request()  定制请求头，创建请求对象
+高级功能：使用代理， cookie
+基本用法： 见handler.py文件
+

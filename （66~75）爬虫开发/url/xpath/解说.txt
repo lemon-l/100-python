@@ -1,0 +1,151 @@
+xpath —— {
+    xml —— {
+        xml是用来存储和传输数据使用的，和html有以下两处不同：
+        1. html用来显示数据，xml用来传输数据
+        2. html标签是固定的，xml标签是自定义的
+    }
+    
+    概念： xpath是一门在XML文档中查找信息的语言，可用来在xml文档中对元素和属性进行遍历
+    
+    xpath使用路径表达式来选取xml文档中的节点或节点集，节点是通过沿着路径或步来选取的
+    
+    常用的路径表达式 —— {
+        // —— 不考虑位置查找
+        ./ —— 从当前节点开始往下查找
+        ../ —— 从当前节点的父节点查找
+        @ —— 选取属性
+    }
+
+    实例 —— {
+        ******* 用“/”起手的表示绝对路径,"//"表示相对路径
+        /bookstore/book —— 选取根节点bookstore下面所有的book
+        //book —— 选取所有的book
+        bookstore//book —— 查找bookst下面的所有book
+        /bookstore/book[1] —— bookstore里面的第一个book
+        /bookstore/book[last()] —— bookstore里面的最后一个book
+        /bookstore/book[position()<3] —— 前两个book
+        //title[@lang] —— 所有的带有lang属性的title节点
+        //title[@lang='eng'] —— 所有的lang属性值为eng的title节点
+        * —— 任何节点元素
+
+    安装xpath插件 —— 启动和关闭插件(ctrl + shift + x)
+
+    定位：
+        属性定位：//input[@id="kw"]     //input[@class="bg s_btn"]
+        层级定位，逻辑定位:  //div[@id="head"]/div/div[2]/a[@class="toindex"] —— 索引从1开始
+                           //div[@id="head"]//a[@class="toindex"] —— 双斜杠代表下面所有的a节点，不管位置
+        逻辑运算：//input[@id="kw" and class="name"]
+        模糊匹配:
+                contains: //input[contains(@class, "s_i")] —— 所有的input，有class属性，并且属性中带有s_i的节点
+                          //input[contains(text(), "爱")] —— input里面带有“爱”的文本
+                starts-with： //input[starts-with(@class, "b")] —— 所有的input，有class属性，并且属性以b开头
+        取文本：//div[@id="u_sp"]/a[3]/text() —— 获取节点内容
+               //div[@id="u_sp"]/text() —— 获取节点里面不带标签的所有内容
+
+                直接将所有的内容拼接起来返回
+                ret = tree.xpath('//div[@class="song"]')
+                string = ret[0].xpath('string(.)')
+                print(string.replace('\n', '').replace('\t', ''))
+        取属性: //div[@id="u_sp"]/a[3]/@href
+
+    代码中使用xpath：
+        from lxml import etree
+        两种方式使用：将html文档变成一个对象，然后调用对象的方法去查找指定的节点
+            1. 本地文件：
+                tree = etree.parse(文件名)
+            2. 网络文件
+                tree = etree.HTML(网页字符串)
+
+    ret = tree.xpath(路径表达式)
+    ret是一个列表    
+    }
+
+    例子 —— {
+        1. http://sc.chinaz.com/tupian/
+        2. http://www.haoduanzi.com/
+    }
+
+    换行问题 —— {
+        存储的时候显示的\n是有效的
+        在读取过来单独使用的时候换行符生效
+    }
+
+    图片 —— {
+        http://sc.chinaz.com/tupian/xingganmeinvtupian_3.html
+        懒加载：用到的时候再进行加载
+        实现方式：
+            <img n = "图片路径"> （注：一般情况下，n为src2，为了减少同时请求）
+            <img src = "图片路径"> 当滑到一定的位置会进行加载，动态将n快速变为src，这是前端的懒加载技术
+    }
+
+    jsonpath —— {
+        用途：解析json数据
+        python处理json格式用到的函数：
+            import json
+            json.dumps(): 将字典或者列表转化为json格式的字符串
+            json.loads(): 将json格式的字符串转化为python对象
+            json.dump(): 将字典或者列表转化为json格式字符串并且写入到文件中
+            json.load(): 从文件中读取json格式字符串，转化为python对象   
+        前端处理：
+            将json格式字符串转化为js对象
+            JSON.parse('jaon格式字符串')
+            eval('(' + json格式字符串 + ')')
+        安装：
+            pip install jsonpath
+        https://blog.csdn.net/luxideyao/article/details/77802389
+    }
+
+    淘宝评论爬取 —— {
+        json数据解析
+    }
+
+    selenium —— {
+        what's the selenium? 浏览器自动测试框架
+            是一个python的第三方库，对外提供的接口可以操作你的浏览器，然后让浏览器完成自动化的操作
+        使用selenium：
+            安装：pip install selenium 
+            操作谷歌浏览器，首先必须有一个谷歌浏览器的驱动
+        谷歌驱动下载地址：
+            http://chromedriver.storage.googleapis.com/index.html
+        谷歌驱动和谷歌浏览器版本关系映射表，但是现在这个也没有什么必要了
+            http://blog.csdn.net/huilan_same/article/details/51896672
+        代码操作：
+            from selenium import webdriver
+            browser = webdriver.Chrome(path)
+            browser.get()
+            使用下面的方法，查找指定的元素进行操作即可
+
+            驱动提供了很多的接口:
+                find_element_by_id           —— 根据id找节点
+                find_elements_by_name        —— 根据name找
+                find_elements_by_xpath       —— 根据xpath查找
+                find_elements_by_tag_name    —— 根据标签名找
+                find_elements_by_class_name  —— 根据class名字查找
+                find_elements_by_css_selector—— 根据选择器查找
+                find_elements_by_link_text   —— 根据链接内容查找
+                get(获取url)\send_keys(往搜索框输入要查找的东西)\click(点击搜索)
+    }
+
+    PhantomJS —— {
+        what's the PhantomJS? 是一款无界面浏览器
+        selenium + PhantomJS 是爬虫终极解决方案，用来加载动态数据
+        但好像现在使用二者配合会报错，selenium已经放弃了phantomJS(即将退出历史的舞台)，建议使用so
+        解决方案：
+            1. selenium降级， 1> pip uninstall selenium 2> pip install selenium==2.48.0
+            2. 使用无界面浏览器 selenium + Headless Firebox(这里我选择这种方式,其实谷歌浏览器也是支持的)
+                使用方法：   from selenium import webdriver
+                            from selenium.webdriver import Firefox
+                            from selenium.webdriver.common.by import By
+                            from selenium.webdriver.common.keys import Keys
+                            from selenium.webdriver.firefox.options import options
+                            from selenium.webdriver.support import expected_conditions as expected
+                            from selenium.webdriver.support.wait import WebDriverWait
+            详情了解：https://www.cnblogs.com/zhaijiahui/p/10622770.html
+                     http://www.sohu.com/a/224999034_100122143/
+        下拉滚动条到底部：
+            豆瓣电影下拉
+        图片加载
+            图片懒加载
+            获取网页的代码：browser.page_source
+    }
+}

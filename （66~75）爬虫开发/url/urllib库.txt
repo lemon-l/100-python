@@ -1,0 +1,33 @@
+urllib: 模拟浏览器发送请求的库，python自带
+
+1. 常用：urllib.request 和 urllib.parse
+
+                字符串和二进制字符串之间的转化
+                        encode()  字符串 ——> 二进制
+                        decode()  二进制 ——> 字符串
+                ******* 括号里面不写参数，默认是utf8，如果非要写，则写gbk
+
+2. urllib.request：
+                urlopen(url)        
+                urlretrieve(url, image_path)  
+
+3. urllib.parse:
+                quote     —— url编码函数，讲中文进行转化为%xxx
+                unquote   —— url解码函数，将%xxx转换为指定的字符
+                urlencode —— 给一个字典，将字典拼接为query_string,并且实现了编码功能
+
+4. response:
+                read()      —— 读取相应内容，内容是字节类型
+                geturl()    —— 获取请求的url
+                getheasers()—— 获取头部信息
+                getcode()   —— 获取状态码
+                readlines() —— 按行读取，返回列表，都是字节类型
+
+5. get 方法
+
+6. 构建请求头部信息（这是反爬第一步）
+                伪装自己的UA(user-Agent 客户代理),让服务端以为你是浏览器在上网
+                构建请求对象，
+        
+
+

@@ -1,0 +1,21 @@
+cookie是什么？
+    http协议，无状态
+    网站登录时候的问题，用来记录用户的身份
+
+模拟登陆 
+    抓包获取cookie，发送请求
+cookie 登录：
+    # 真实模拟浏览器，当发送完post请求的时候，将cookie保存到代码中
+
+    # 创建一个cookiejar对象
+    cj = http.cookiejar.CookieJar()
+
+    # 通过cookiejar创建一个handler
+    handler = urllib.request.HTTPCookieProcessor(cj)
+
+    # 根据handler创建一个opener
+    opener  = urllib.request.build_opener(handler)
+
+    再往下的所有操作都是用opener.open()方法去发送请求，因为这里面带着cookie过去了
+    
+
